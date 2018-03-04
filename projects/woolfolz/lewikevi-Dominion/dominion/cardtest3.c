@@ -80,7 +80,7 @@ int main() {
 		cardEffect(smithy, choice1, choice2, choice3, &G1, handPos, &bonus);
 
 		printf("Player %d should gain 3 cards\n", curPlayer);
-		assertEqual(G1.handCount[curPlayer], G2.handCount[curPlayer]+2); //+2 because smithy is discarded too
+		assertEqual(G1.handCount[curPlayer], G2.handCount[curPlayer]+3);
 
 		printf("Check if the 3 cards came from the right deck\n");
 		assertEqual(G1.deckCount[curPlayer], G2.deckCount[curPlayer]-3);

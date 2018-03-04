@@ -79,12 +79,12 @@ void adventurerTest(struct gameState* origG){
 	assertEqual(result, 0, CARD_EFFECT_FAIL);
 
 	//player should gain 2 cards
-	assertEqual(newG.handCount[curPlayer], origG->handCount[curPlayer]+1, CARD_GAIN_FAIL); //+1 because adventurer is discarded too
+	assertEqual(newG.handCount[curPlayer], origG->handCount[curPlayer]+2, CARD_GAIN_FAIL);
 
 	//The cards gained should be treasure
 	int newTreasure = 0;
 	for(i = 0; i < newG.handCount[curPlayer]; i++){
-		card = origG->hand[curPlayer][i];
+		card = newG.hand[curPlayer][i];
 		if(card == copper || card == silver || card == gold){
 			newTreasure++;
 		}

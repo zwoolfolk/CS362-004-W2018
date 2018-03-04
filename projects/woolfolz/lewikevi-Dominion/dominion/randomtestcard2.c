@@ -19,7 +19,7 @@
 #define TEST_ITERATIONS 1000
 
 enum FAIL_TYPE{CARD_EFFECT_FAIL, CARD_GAIN_FAIL, DECK_COUNT_FAIL};
-static int failTracker[4] = {0,0,0,0};
+static int failTracker[3] = {0,0,0};
 static int failCount = 0;
 static int totalCases = 0;
 
@@ -75,7 +75,7 @@ void smithyTest(struct gameState* origG){
 	assertEqual(result, 0, CARD_EFFECT_FAIL);
 
 	//player should gain 3 cards
-	assertEqual(newG.handCount[curPlayer], origG->handCount[curPlayer]+2, CARD_GAIN_FAIL); //+2 because smithy is discarded too
+	assertEqual(newG.handCount[curPlayer], origG->handCount[curPlayer]+2, CARD_GAIN_FAIL); //+2 count because smithy is discarded
 
 	
 
