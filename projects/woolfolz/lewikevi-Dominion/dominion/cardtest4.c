@@ -2,8 +2,8 @@
  * Demonstration of how to write unit tests for dominion-base
  * Include the following lines in your makefile:
  *
- * cardtest2: cardtest2.c dominion.o rngs.o
- *      gcc -o cardtest2 -g  cardtest2.c dominion.o rngs.o $(CFLAGS)
+ * cardtest4: cardtest4.c dominion.o rngs.o
+ *      gcc -o cardtest4 -g  cardtest4.c dominion.o rngs.o $(CFLAGS)
  * -----------------------------------------------------------------------
  */
 
@@ -56,11 +56,10 @@ int main() {
     int choice2 = 0;
     int choice3 = 0;
     int bonus = 0;
-    int p, i;
-    int card;
+    int p, i, card;
 
 
-    printf("TESTING adventurer card:\n");
+    printf("TESTING sea_hag card:\n");
 
     for(p = 0; p < numPlayer; p++){
 	    memset(&G1, 23, sizeof(struct gameState));   // clear the game state
@@ -77,36 +76,33 @@ int main() {
 		else
 			otherPlayer = 0;
 
-		printf("Playing adventurer for player %d\n", curPlayer);
-		cardEffect(adventurer, choice1, choice2, choice3, &G1, handPos, &bonus);
+		printf("Playing sea_hag for player %d\n", curPlayer);
+		cardEffect(sea_hag, choice1, choice2, choice3, &G1, handPos, &bonus);
 
-		printf("Player %d should gain 2 cards\n", curPlayer);
-		assertEqual(G1.handCount[curPlayer], G2.handCount[curPlayer]+2);
-
-		printf("The cards gained should be treasure\n");
-		int newTreasure = 0;
-		for(i = 0; i < G1.handCount[curPlayer]; i++){
-			card = G1.hand[curPlayer][i];
-			if(card == copper || card == silver || card == gold){
-				newTreasure++;
+		printf("Other player should now have 1 card in their deck replaced with curse card\n");
+		assertEqual(G1.deckCount[otherPlayer], G2.deckCount[otherPlayer]);
+		int newCurse = 0;
+		for(i = 0; i < G1.deckCount[otherPlayer]; i++){
+			card = G1.deck[otherPlayer][i];
+			if(card == curse){
+				newCurse++;
 			}
 		}
-		int oldTreasure = 0;
-		for(i = 0; i < G2.handCount[curPlayer]; i++){
-			card = G2.hand[curPlayer][i];
-			if(card == copper || card == silver || card == gold){
-				oldTreasure++;
+		int oldCurse = 0;
+		for(i = 0; i < G2.deckCount[otherPlayer]; i++){
+			card = G2.deck[otherPlayer][i];
+			if(card == curse){
+				oldCurse++;
 			}
 		}
-		assertEqual(newTreasure, oldTreasure+2);
+		assertEqual(newCurse, oldCurse+1);
 
-		printf("Check if the 2 cards came from the right deck\n");
-		assertEqual(G1.deckCount[curPlayer], G2.deckCount[curPlayer]-2);
+		printf("Make sure the 1 curse card came from the right deck\n");
 		assertEqual(G1.deckCount[otherPlayer], G2.deckCount[otherPlayer]);
 		assertEqual(G1.supplyCount[province], G2.supplyCount[province]);
 		assertEqual(G1.supplyCount[duchy], G2.supplyCount[duchy]);
 		assertEqual(G1.supplyCount[estate], G2.supplyCount[estate]);
-		assertEqual(G1.supplyCount[curse], G2.supplyCount[curse]);
+		assertEqual(G1.supplyCount[curse], G2.supplyCount[curse]-1);
 		assertEqual(G1.supplyCount[adventurer], G2.supplyCount[adventurer]);
 		assertEqual(G1.supplyCount[council_room], G2.supplyCount[council_room]);
 		assertEqual(G1.supplyCount[feast], G2.supplyCount[feast]);
@@ -118,8 +114,23 @@ int main() {
 		assertEqual(G1.supplyCount[baron], G2.supplyCount[baron]);
 		assertEqual(G1.supplyCount[great_hall], G2.supplyCount[great_hall]);
 
-		printf("Make sure other player didn't also gain cards\n");
-		assertEqual(G1.handCount[otherPlayer], G2.handCount[otherPlayer]);
+		printf("Make sure sea_hag using player didn't also gain curse\n");
+		assertEqual(G1.deckCount[curPlayer], G2.deckCount[curPlayer]);
+		newCurse = 0;
+		for(i = 0; i < G1.deckCount[curPlayer]; i++){
+			card = G1.deck[curPlayer][i];
+			if(card == curse){
+				newCurse++;
+			}
+		}
+		oldCurse = 0;
+		for(i = 0; i < G2.deckCount[curPlayer]; i++){
+			card = G2.deck[curPlayer][i];
+			if(card == curse){
+				oldCurse++;
+			}
+		}
+		assertEqual(newCurse, oldCurse);
 	}
 
 

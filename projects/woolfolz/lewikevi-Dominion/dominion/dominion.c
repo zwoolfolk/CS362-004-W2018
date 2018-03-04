@@ -1165,9 +1165,9 @@ int mineEffect(struct gameState *state, int *currentPlayer, int choice1, int cho
     
     //discard card from hand
     discardCard(handPos, *currentPlayer, state, 0);
-    
+    int i;
     //discard trashed card
-    for (int i = 0; i < state->handCount[*currentPlayer]; i++)
+    for (i = 0; i < state->handCount[*currentPlayer]; i++)
     {
         if (state->hand[*currentPlayer][i] == j)
         {
@@ -1191,9 +1191,9 @@ int remodelEffect(struct gameState *state, int *currentPlayer, int choice1, int 
     
     //discard card from hand
     discardCard(handPos, *currentPlayer, state, 0);
-    
+    int i;
     //discard trashed card
-    for (int i = 0; i < state->handCount[*currentPlayer]; i++)
+    for (i = 0; i < state->handCount[*currentPlayer]; i++)
     {
         if (state->hand[*currentPlayer][i] == j)
         {
@@ -1208,7 +1208,8 @@ int remodelEffect(struct gameState *state, int *currentPlayer, int choice1, int 
 
 int smithyEffect(struct gameState *state, int *currentPlayer, int handPos){
     //+3 Cards
-    for (int i = 0; i <= 3; i++)
+    int i;
+    for (i = 0; i <= 3; i++)
     {
         drawCard(*currentPlayer, state);
     }

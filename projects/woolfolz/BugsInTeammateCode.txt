@@ -1,0 +1,40 @@
+1) adventurer cardEffect:
+
+a)
+Reproducible: Occasionally
+
+Description: After playing the adventurer card (with the cardEffect function), sometimes the player's deck count is not 2 less than before playing the adventurer card, as expected. While the unit test that tested this condition passed these test cases on multiple runs, the random test of 1000 iterations of this condition failed in approximately 1/3 of cases consistently through multiple runs.
+
+Steps to Reproduce: Compare the gameState.deckCount[curPlayer] before and after playing the adventurer cardEffect
+
+Expected Results: deckCount after playing adventurer card should be 2 less than before playing adventurer card
+
+Actual results: deckCount is as expected in 2/3 of cases. In the 1/3 of cases that fail, the difference is varibale. Observed counts would typically differ by 1 to 5 (pre-play count is 1, post-play count is 5, for example).
+
+b)
+Reproducible: Occasionally
+
+Description: After playing the adventurer card (with the cardEffect function), sometimes the number of cards gained was not 2, and the expected treasure gain (2) was not matched. While the unit test that tested these conditions passed these test cases on multiple runs, the random test of 1000 iterations of these conditions failed in approximately 70% of cases consistently through multiple runs.
+
+Steps to Reproduce: Compare the gameState.handCount[curPlayer], and the number of treasure cards in gameState.handCount[curPlayer] before and after playing the adventurer card effect.
+
+Expected Results: handCount after playing adventurer card should be 2 more than before playing
+		treasure count after playing adventurer card should be 2 more than before playing
+
+Actual Results: These counts are not as expected. Exact counts indeterminate since the bug only appeared in some cases of the random testing iterations.
+
+Other Information: These bugs may be related to the bug described in part (a).
+
+
+
+2) smithy cardEffect:
+
+Reproducible: Yes (always)
+
+Description: After playing the smithy card (with the cardEffect function), the player's hand count is not +2 as expected (+3 cards gained and -1 discard for playing smithy). In every case the of the random testing iterations the player gained 3 cards total into their hand. Either the player is gaining too many (4)  cards, or the smithy card is not being discarded.
+
+Steps to Reproduce: Compare the gameState.handCount[curPlayer] before and after playing the smithy card effect.
+
+Expected Results: handCount after playing smithy card should be 2 more than before playing.
+
+Actual results: handCount is always 3 more than before playing.

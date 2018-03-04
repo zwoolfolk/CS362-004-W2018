@@ -2,8 +2,8 @@
  * Demonstration of how to write unit tests for dominion-base
  * Include the following lines in your makefile:
  *
- * cardtest2: cardtest2.c dominion.o rngs.o
- *      gcc -o cardtest2 -g  cardtest2.c dominion.o rngs.o $(CFLAGS)
+ * cardtest3: cardtest3.c dominion.o rngs.o
+ *      gcc -o cardtest3 -g  cardtest3.c dominion.o rngs.o $(CFLAGS)
  * -----------------------------------------------------------------------
  */
 
@@ -56,11 +56,10 @@ int main() {
     int choice2 = 0;
     int choice3 = 0;
     int bonus = 0;
-    int p, i;
-    int card;
+    int p;
 
 
-    printf("TESTING adventurer card:\n");
+    printf("TESTING smithy card:\n");
 
     for(p = 0; p < numPlayer; p++){
 	    memset(&G1, 23, sizeof(struct gameState));   // clear the game state
@@ -77,31 +76,14 @@ int main() {
 		else
 			otherPlayer = 0;
 
-		printf("Playing adventurer for player %d\n", curPlayer);
-		cardEffect(adventurer, choice1, choice2, choice3, &G1, handPos, &bonus);
+		printf("Playing smithy for player %d\n", curPlayer);
+		cardEffect(smithy, choice1, choice2, choice3, &G1, handPos, &bonus);
 
-		printf("Player %d should gain 2 cards\n", curPlayer);
-		assertEqual(G1.handCount[curPlayer], G2.handCount[curPlayer]+2);
+		printf("Player %d should gain 3 cards\n", curPlayer);
+		assertEqual(G1.handCount[curPlayer], G2.handCount[curPlayer]+2); //+2 because smithy is discarded too
 
-		printf("The cards gained should be treasure\n");
-		int newTreasure = 0;
-		for(i = 0; i < G1.handCount[curPlayer]; i++){
-			card = G1.hand[curPlayer][i];
-			if(card == copper || card == silver || card == gold){
-				newTreasure++;
-			}
-		}
-		int oldTreasure = 0;
-		for(i = 0; i < G2.handCount[curPlayer]; i++){
-			card = G2.hand[curPlayer][i];
-			if(card == copper || card == silver || card == gold){
-				oldTreasure++;
-			}
-		}
-		assertEqual(newTreasure, oldTreasure+2);
-
-		printf("Check if the 2 cards came from the right deck\n");
-		assertEqual(G1.deckCount[curPlayer], G2.deckCount[curPlayer]-2);
+		printf("Check if the 3 cards came from the right deck\n");
+		assertEqual(G1.deckCount[curPlayer], G2.deckCount[curPlayer]-3);
 		assertEqual(G1.deckCount[otherPlayer], G2.deckCount[otherPlayer]);
 		assertEqual(G1.supplyCount[province], G2.supplyCount[province]);
 		assertEqual(G1.supplyCount[duchy], G2.supplyCount[duchy]);

@@ -81,7 +81,7 @@ int main() {
 		cardEffect(adventurer, choice1, choice2, choice3, &G1, handPos, &bonus);
 
 		printf("Player %d should gain 2 cards\n", curPlayer);
-		assertEqual(G1.handCount[curPlayer], G2.handCount[curPlayer]+2);
+		assertEqual(G1.handCount[curPlayer], G2.handCount[curPlayer]+1); //+1 because adventurer is discarded too
 
 		printf("The cards gained should be treasure\n");
 		int newTreasure = 0;
@@ -98,7 +98,7 @@ int main() {
 				oldTreasure++;
 			}
 		}
-		assertEqual(newTreasure, oldTreasure+2);
+		assertEqual(newTreasure, oldTreasure);
 
 		printf("Check if the 2 cards came from the right deck\n");
 		assertEqual(G1.deckCount[curPlayer], G2.deckCount[curPlayer]-2);
